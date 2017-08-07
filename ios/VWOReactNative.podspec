@@ -9,17 +9,13 @@ Pod::Spec.new do |spec|
   spec.homepage     = ""
   spec.license      = "MIT"
   # spec.license      = { :type => "MIT", :file => "FILE_LICENSE" }
-  spec.author             = { "author" => "author@domain.cn" }
-  spec.platform     = :ios, "8.0"
+  spec.author       = { "wingify" => "info@wingify.com" }
+  spec.platform     = :ios, "9.0"
   spec.source       = { :git => "https://github.com/wingify/vwo-react-native.git", :tag => "master" }
-  spec.source_files  = "VWOReactNative/**/*.{h,m}"
+  spec.source_files = "VWOReactNative/**/*.{h,m}"
   spec.requires_arc = true
-  spec.default_subspec = 'Dynamic'
   spec.dependency 'React'
 
-  spec.subspec 'Dynamic' do |dynamic|
-    dynamic.dependency 'VWO', '~>2.0.0-beta1'
-  end
   spec.subspec 'Static' do |static|
     static.dependency 'VWO', '~>2.0.0-beta1'
   end

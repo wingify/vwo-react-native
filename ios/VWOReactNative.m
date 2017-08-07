@@ -8,7 +8,7 @@
 
 #include "VWOReactNative.h"
 #import <React/RCTLog.h>
-#import "VWO.h"
+#import <VWO/VWO.h>
 
 @implementation VWOReactNative
 
