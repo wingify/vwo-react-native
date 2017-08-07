@@ -1,6 +1,6 @@
 
 import { NativeModules } from 'react-native';
 
-const { VWOReactNative } = NativeModules;
+const { VWO } = NativeModules;
 
-export default VWOReactNative;
+export default VWO;

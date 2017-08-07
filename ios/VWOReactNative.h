@@ -8,4 +8,5 @@
 @interface VWOReactNative : NSObject <RCTBridgeModule>
 
 @end
-  
+
+#endif /* VWOReactNative_h */
