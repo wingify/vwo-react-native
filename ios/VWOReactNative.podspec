@@ -15,10 +15,7 @@ Pod::Spec.new do |spec|
   spec.source_files = "VWOReactNative/**/*.{h,m}"
   spec.requires_arc = true
   spec.dependency 'React'
-
-  spec.subspec 'Static' do |static|
-    static.dependency 'VWO', '~>2.0.0-beta1'
-  end
+  spec.dependency 'VWO', '~>2.0.0-beta1'
 
 end
 
