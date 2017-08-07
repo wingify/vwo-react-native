@@ -37,9 +37,9 @@
 
 ## Usage
 ```javascript
-import VWOReactNative from 'vwo-react-native';
+import VWO from 'vwo-react-native';
 
 // TODO: What to do with the module?
-VWOReactNative;
+VWO;
 ```
   

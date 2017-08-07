@@ -24,7 +24,7 @@ import java.util.HashMap;
 
 public class VWOReactNativeModule extends ReactContextBaseJavaModule {
 
-  public static final String TAG = VWOPackageManager.class.getSimpleName();
+  public static final String TAG = VWOReactNativeModule.class.getSimpleName();
   public static final String VWO_NAME = "VWO";
 
   private Context mContext;
