@@ -15,7 +15,7 @@ import com.vwo.mobile.VWOConfig;
 import com.vwo.mobile.events.VWOStatusListener;
 import com.vwo.mobile.listeners.ActivityLifecycleListener;
 import com.vwo.mobile.utils.VWOLog;
-import com.vworeactnative.RNUtils.Utils;
+import com.vwo.RNUtils.Utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
