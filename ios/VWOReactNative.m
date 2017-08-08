@@ -6,7 +6,7 @@
 //  Copyright © 2017 Facebook. All rights reserved.
 //
 
-#import <VWO.h>
+#import <VWO/VWO.h>
 #import "VWOReactNative.h"
 #import <React/RCTLog.h>
 
