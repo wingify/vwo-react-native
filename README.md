@@ -57,4 +57,4 @@
 
 ## Documentation
 
-https://dash.readme.io/project/apoorv/v3/refs/react-native-guide  
+http://developers.vwo.com/v3/reference#react-native-guide
