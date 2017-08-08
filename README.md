@@ -57,5 +57,4 @@
 
 ## Documentation
 
-http://developers.vwo.com/reference#react-native-plugin
-  
+https://dash.readme.io/project/apoorv/v3/refs/react-native-guide  
