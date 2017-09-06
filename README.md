@@ -10,7 +10,7 @@
 `$ react-native link vwo-react-native`
 
 ### iOS
-1. Add VWO Dependency to your ios/podfile file `pod 'VWO', '~>2.0.0-beta4'`
+1. Add VWO Dependency to your ios/podfile file `pod 'VWO', '~>2.0.0-beta5'`
 2. `cd ios && pod install`
 
 ### Android
@@ -29,7 +29,7 @@
 1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
 2. Go to `node_modules` ➜ `vwo-react-native` and add `VWOReactNative.xcodeproj`
 3. In XCode, in the project navigator, select your project. Add `libVWOReactNative.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
-4. Add VWO Dependency to your ios/podfile file `pod 'VWO', '~>2.0.0-beta4'`
+4. Add VWO Dependency to your ios/podfile file `pod 'VWO', '~>2.0.0-beta5'`
 5. `cd ios && pod install`
 6. Run your project (`Cmd+R`)<
 
