@@ -19,6 +19,9 @@
    maven {
             url 'https://raw.githubusercontent.com/wingify/vwo-mobile-android/hybrid/‘
          }
+   maven {
+        url 'https://raw.githubusercontent.com/wingify/vwo-android-snapshot/hybrid/'
+    }
    ```
 
 ## Manual installation
@@ -52,6 +55,9 @@
    maven {
             url 'https://raw.githubusercontent.com/wingify/vwo-mobile-android/hybrid/‘
          }
+   maven {
+        url 'https://raw.githubusercontent.com/wingify/vwo-android-snapshot/hybrid/'
+    }
    ```
 
 
