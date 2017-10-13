@@ -2,6 +2,7 @@
 package com.vwo;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.LifecycleEventListener;
@@ -21,6 +22,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.Nullable;
 
 public class VWOReactNativeModule extends ReactContextBaseJavaModule {
 
@@ -66,6 +70,11 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
 
     private Initializer initializer(String apiKey) {
         return com.vwo.mobile.VWO.with(getContext(), apiKey);
+    }
+
+    @ReactMethod
+    public void setLogLevel(int logLevel) {
+        VWOLog.setLogLevel(logLevel);
     }
 
     @ReactMethod
@@ -154,5 +163,20 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public String getVersion() {
         return com.vwo.mobile.VWO.version();
+    }
+
+    /**
+     * @return a map of constants this module exports to JS. Supports JSON types.
+     */
+    @Nullable
+    @Override
+    public Map<String, Object> getConstants() {
+        Map<String, Object> constants = new HashMap<>();
+        constants.put("LogLevelDebug", 800);
+        constants.put("LogLevelInfo", 700);
+        constants.put("LogLevelWarning", 900);
+        constants.put("LogLevelError", 1000);
+        constants.put("LogLevelOff", Integer.MAX_VALUE);
+        return constants;
     }
 }
