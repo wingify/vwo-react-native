@@ -90,7 +90,7 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void launchAsychronously(String apiKey) {
+    public void launchAsynchronously(String apiKey) {
         initializer(apiKey).config(mConfig).launch();
     }
 
