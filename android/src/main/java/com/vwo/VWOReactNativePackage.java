@@ -23,10 +23,10 @@ public class VWOReactNativePackage implements ReactPackage {
      * listed here. Also listing a native module here doesn't imply that the JS implementation of it
      * will be automatically included in the JS bundle.
      */
-    @Override
-    public List<Class<? extends JavaScriptModule>> createJSModules() {
-      return Collections.emptyList();
-    }
+//    @Override
+//    public List<Class<? extends JavaScriptModule>> createJSModules() {
+//      return Collections.emptyList();
+//    }
 
     @Override
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
