@@ -30,7 +30,6 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
 
     public VWOReactNativeModule(ReactApplicationContext reactContext) {
         super(reactContext);
-        VWOLog.setLogLevel(VWOLog.ALL);
         final ActivityLifecycleListener listener = new ActivityLifecycleListener();
         mConfig = new VWOConfig.Builder().setLifecycleListener(listener).build();
         reactContext.addLifecycleEventListener(new LifecycleEventListener() {
