@@ -72,30 +72,29 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void launchAsynchronouslyWithCallback(@NonNull String apiKey,
-                                                 @Nullable final Callback successCallback,
-                                                 @Nullable final Callback failureCallback) {
+                                                 @Nullable final Callback completionCallback) {
         initializer(apiKey).config(mConfig).launch(new VWOStatusListener() {
 
             @Override
             public void onVWOLoaded() {
-                if(successCallback != null) {
-                    successCallback.invoke();
+                if(completionCallback != null) {
+                    completionCallback.invoke(null, "");
                 }
             }
 
             @Override
             public void onVWOLoadFailure(String message) {
-                if(failureCallback != null) {
-                    failureCallback.invoke();
+                if(completionCallback != null) {
+                    completionCallback.invoke(message);
                 }
             }
         });
     }
 
-    @ReactMethod
-    public void launchSynchronously(@NonNull String apiKey, @NonNull long timeout) {
-        initializer(apiKey).config(mConfig).launchSynchronously(timeout);
-    }
+//    @ReactMethod(isBlockingSynchronousMethod = true)
+//    public void launchSynchronously(@NonNull String apiKey) {
+//        initializer(apiKey).config(mConfig).launchSynchronously(3000);
+//    }
 
     @ReactMethod
     public void launchAsynchronously(@NonNull String apiKey) {
@@ -107,9 +106,8 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
     public Object variationForKey(@NonNull String key, @Nullable Callback callback) {
         Object obj;
         obj = com.vwo.mobile.VWO.getVariationForKey(key);
-//        Log.d(TAG, "getVariationForKey: "+obj);
         if(callback != null) {
-            callback.invoke(obj);
+            callback.invoke(null, obj);
         }
         return obj;
     }
@@ -120,9 +118,8 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
         Object retrievedObject = com.vwo.mobile.VWO.getVariationForKey(key, defaultValue);
 
         if(callback != null) {
-            callback.invoke(retrievedObject);
+            callback.invoke(null, retrievedObject);
         }
-//        Log.d(TAG, "getVariationForKeyWithDefaultValue: "+obj);
         return retrievedObject;
     }
 
@@ -132,7 +129,7 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void markConversionForGoalWithValue(@NonNull String goal, double value) {
+    public void markConversionForGoalWithValue(@NonNull String goal, Double value) {
         com.vwo.mobile.VWO.markConversionForGoal(goal, value);
     }
 
@@ -153,7 +150,7 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public String version(@NonNull Callback callback) {
         String version = com.vwo.mobile.VWO.version();
-        callback.invoke(version);
+        callback.invoke(null, version);
         return version;
     }
 
