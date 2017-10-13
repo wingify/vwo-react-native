@@ -107,7 +107,11 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
         Object obj;
         obj = com.vwo.mobile.VWO.getVariationForKey(key);
         if(callback != null) {
-            callback.invoke(null, obj);
+            if(obj == null) {
+                callback.invoke("No variation found for key: " + key);
+            } else {
+                callback.invoke(null, obj);
+            }
         }
         return obj;
     }
