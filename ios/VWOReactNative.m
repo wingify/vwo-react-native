@@ -28,11 +28,11 @@ RCT_ENUM_CONVERTER(VWOLogLevel, (@{
 RCT_EXPORT_MODULE(VWO);
 
 - (NSDictionary *)constantsToExport {
-    return @{ @"LogLevelDebug"  : @(VWOLogLevelDebug),
-              @"LogLevelInfo"   : @(VWOLogLevelInfo),
-              @"LogLevelWarning": @(VWOLogLevelWarning),
-              @"LogLevelError"  : @(VWOLogLevelError),
-              @"LogLevelNone"   : @(VWOLogLevelNone)};
+    return @{ @"logLevelDebug"  : @(VWOLogLevelDebug),
+              @"logLevelInfo"   : @(VWOLogLevelInfo),
+              @"logLevelWarning": @(VWOLogLevelWarning),
+              @"logLevelError"  : @(VWOLogLevelError),
+              @"logLevelOff"    : @(VWOLogLevelNone)};
 };
 
 + (BOOL)requiresMainQueueSetup { return TRUE; }
@@ -46,11 +46,11 @@ RCT_EXPORT_METHOD(version:(RCTResponseSenderBlock)callback){
     callback(@[[NSNull null], version]);
 }
 
-RCT_EXPORT_METHOD(launchAsynchronously:(NSString*)apiKey){
+RCT_EXPORT_METHOD(launch:(NSString*)apiKey){
     [VWO launchForAPIKey:apiKey];
 }
 
-RCT_EXPORT_METHOD(launchAsynchronouslyWithCallback: (NSString *)apiKey completion:(RCTResponseSenderBlock)completion){
+RCT_EXPORT_METHOD(launchWithCallback: (NSString *)apiKey completion:(RCTResponseSenderBlock)completion){
     [VWO launchForAPIKey:apiKey completion:^{
         completion(@[[NSNull null]]);
     } failure:^(NSString * _Nonnull error) {
