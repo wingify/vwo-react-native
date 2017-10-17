@@ -108,18 +108,8 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
             if (retrievedObject == null) {
                 callback.invoke("No variation found for key: " + key);
             } else {
-                callback.invoke(null, String.valueOf(retrievedObject));
+                callback.invoke(null, retrievedObject);
             }
-        }
-    }
-
-    @ReactMethod
-    @NonNull
-    public void variationForKeyWithDefaultValue(@NonNull String key, @NonNull String defaultValue, @Nullable Callback callback) {
-        Object retrievedObject = com.vwo.mobile.VWO.getVariationForKey(key, defaultValue);
-
-        if (callback != null) {
-            callback.invoke(null, String.valueOf(retrievedObject));
         }
     }
 
