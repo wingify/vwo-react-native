@@ -123,4 +123,34 @@ public class Utils {
         }
         return array;
     }
+
+//    public static Map<String, String> convertReadableMapToHashMap(ReadableMap readableMap) throws JSONException {
+//        Map<String, String> hashMap = new HashMap<>();
+//        ReadableMapKeySetIterator iterator = readableMap.keySetIterator();
+//        while (iterator.hasNextKey()) {
+//            String key = iterator.nextKey();
+//            switch (readableMap.getType(key)) {
+//                case Null:
+//                    hashMap.put(key, null);
+//                    break;
+//                case Boolean:
+//                    hashMap.put(key, String.valueOf(readableMap.getBoolean(key)));
+//                    break;
+//                case Number:
+//                    hashMap.put(key, String.valueOf(readableMap.getDouble(key)));
+//                    break;
+//                case String:
+//                    hashMap.put(key, String.valueOf(readableMap.getString(key)));
+//                    break;
+//                case Map:
+//                    hashMap.put(key, convertMapToJson(readableMap.getMap(key)).toString());
+//                    break;
+//                case Array:
+//                    hashMap.put(key, convertArrayToJson(readableMap.getArray(key)).toString());
+//                    break;
+//            }
+//        }
+//
+//        return hashMap;
+//    }
 }

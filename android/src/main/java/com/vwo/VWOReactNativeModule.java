@@ -8,11 +8,16 @@ import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.vwo.RNUtils.Utils;
 import com.vwo.mobile.Initializer;
 import com.vwo.mobile.VWOConfig;
 import com.vwo.mobile.events.VWOStatusListener;
 import com.vwo.mobile.listeners.ActivityLifecycleListener;
 import com.vwo.mobile.utils.VWOLog;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -108,7 +113,23 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
             if (retrievedObject == null) {
                 callback.invoke("No variation found for key: " + key);
             } else {
-                callback.invoke(null, retrievedObject);
+                if (retrievedObject instanceof JSONObject) {
+                    try {
+                        callback.invoke(null, Utils.convertJsonToMap((JSONObject) retrievedObject));
+                    } catch (JSONException exception) {
+                        VWOLog.e(VWOLog.DATA_LOGS, exception, false, false);
+                        callback.invoke("Unable to parse data");
+                    }
+                } else if (retrievedObject instanceof JSONArray) {
+                    try {
+                        callback.invoke(null, Utils.convertJsonToArray((JSONArray) retrievedObject));
+                    } catch (JSONException exception) {
+                        VWOLog.e(VWOLog.DATA_LOGS, exception, false, false);
+                        callback.invoke("Unable to parse data");
+                    }
+                } else {
+                    callback.invoke(null, retrievedObject);
+                }
             }
         }
     }
@@ -128,14 +149,22 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
         com.vwo.mobile.VWO.setCustomVariable(key, value);
     }
 
-    @ReactMethod
-    public void launchWithVWOConfig(@NonNull String apiKey, @NonNull HashMap<String, String> userSegmentationMapping) {
-        initializer(apiKey).config(new VWOConfig
-                .Builder()
-                .setCustomSegmentationMapping(userSegmentationMapping)
-                .build())
-                .launch();
-    }
+//    @ReactMethod
+//    public void launchWithVWOConfig(@NonNull String apiKey, @NonNull ReadableMap userSegmentationMapping) {
+//        Map<String, String> map;
+//        try {
+//            map = Utils.convertReadableMapToHashMap(userSegmentationMapping);
+//            Log.d("TAG", map.toString());
+//        } catch (JSONException exception) {
+//            VWOLog.e(VWOLog.INITIALIZATION_LOGS, exception, false, false);
+//            map = new HashMap<>();
+//        }
+//        initializer(apiKey).config(new VWOConfig
+//                .Builder()
+//                .setCustomSegmentationMapping(map)
+//                .build())
+//                .launch();
+//    }
 
     @ReactMethod
     public void version(@NonNull Callback callback) {
