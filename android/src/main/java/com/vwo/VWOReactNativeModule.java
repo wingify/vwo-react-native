@@ -75,7 +75,7 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void launchAsynchronouslyWithCallback(@NonNull String apiKey,
+    public void launchWithCallback(@NonNull String apiKey,
                                                  @Nullable final Callback completionCallback) {
         initializer(apiKey).config(mConfig).launch(new VWOStatusListener() {
 
@@ -101,7 +101,7 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
 //    }
 
     @ReactMethod
-    public void launchAsynchronously(@NonNull String apiKey) {
+    public void launch(@NonNull String apiKey) {
         initializer(apiKey).config(mConfig).launch();
     }
 
