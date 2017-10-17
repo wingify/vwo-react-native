@@ -17,7 +17,7 @@
 1. Add this in your `android/build.gradle` file
    ```groovy
    maven {
-            url 'https://raw.githubusercontent.com/wingify/vwo-android-snapshot/hybrid/'
+            url 'https://raw.githubusercontent.com/wingify/vwo-mobile-android/hybrid/'
          }
    ```
 

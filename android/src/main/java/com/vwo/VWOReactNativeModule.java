@@ -1,4 +1,3 @@
-
 package com.vwo;
 
 import android.content.Context;
@@ -77,14 +76,14 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
 
             @Override
             public void onVWOLoaded() {
-                if(completionCallback != null) {
+                if (completionCallback != null) {
                     completionCallback.invoke(null, "");
                 }
             }
 
             @Override
             public void onVWOLoadFailure(String message) {
-                if(completionCallback != null) {
+                if (completionCallback != null) {
                     completionCallback.invoke(message);
                 }
             }
@@ -103,28 +102,25 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     @Nullable
-    public Object variationForKey(@NonNull String key, @Nullable Callback callback) {
-        Object obj;
-        obj = com.vwo.mobile.VWO.getVariationForKey(key);
-        if(callback != null) {
-            if(obj == null) {
+    public void variationForKey(@NonNull String key, @Nullable Callback callback) {
+        Object retrievedObject = com.vwo.mobile.VWO.getVariationForKey(key);
+        if (callback != null) {
+            if (retrievedObject == null) {
                 callback.invoke("No variation found for key: " + key);
             } else {
-                callback.invoke(null, obj);
+                callback.invoke(null, String.valueOf(retrievedObject));
             }
         }
-        return obj;
     }
 
     @ReactMethod
     @NonNull
-    public Object variationForKeyWithDefaultValue(@NonNull String key, @NonNull Object defaultValue, @Nullable Callback callback) {
+    public void variationForKeyWithDefaultValue(@NonNull String key, @NonNull String defaultValue, @Nullable Callback callback) {
         Object retrievedObject = com.vwo.mobile.VWO.getVariationForKey(key, defaultValue);
 
-        if(callback != null) {
-            callback.invoke(null, retrievedObject);
+        if (callback != null) {
+            callback.invoke(null, String.valueOf(retrievedObject));
         }
-        return retrievedObject;
     }
 
     @ReactMethod
@@ -152,10 +148,9 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public String version(@NonNull Callback callback) {
+    public void version(@NonNull Callback callback) {
         String version = com.vwo.mobile.VWO.version();
         callback.invoke(null, version);
-        return version;
     }
 
     /**
@@ -165,11 +160,11 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
     @Override
     public Map<String, Object> getConstants() {
         Map<String, Object> constants = new HashMap<>();
-        constants.put("LogLevelDebug", 800);
-        constants.put("LogLevelInfo", 700);
-        constants.put("LogLevelWarning", 900);
-        constants.put("LogLevelError", 1000);
-        constants.put("LogLevelOff", Integer.MAX_VALUE);
+        constants.put("logLevelDebug", 800);
+        constants.put("logLevelInfo", 700);
+        constants.put("logLevelWarning", 900);
+        constants.put("logLevelError", 1000);
+        constants.put("logLevelOff", Integer.MAX_VALUE);
         return constants;
     }
 }
