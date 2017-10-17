@@ -69,11 +69,6 @@ RCT_EXPORT_METHOD(variationForKey:(NSString *)key callback:(RCTResponseSenderBlo
     else callback(@[[NSNull null], variation]);
 }
 
-RCT_EXPORT_METHOD(variationForKeyWithDefaultValue:(NSString *)key defaultValue:(id)defaultValue callback:(RCTResponseSenderBlock)callback){
-    id variation =  (NSDictionary *)[VWO variationForKey:key defaultValue:defaultValue];
-    callback(@[[NSNull null], variation]);
-}
-
 RCT_EXPORT_METHOD(markConversionForGoal: (NSString *)goal){
     [VWO markConversionForGoal:goal];
 }
