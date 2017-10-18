@@ -82,7 +82,7 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
             @Override
             public void onVWOLoaded() {
                 if (completionCallback != null) {
-                    completionCallback.invoke(null);
+                    completionCallback.invoke();
                 }
             }
 
