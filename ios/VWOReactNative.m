@@ -63,10 +63,12 @@ RCT_EXPORT_METHOD(launchWithCallback: (NSString *)apiKey completion:(RCTResponse
     //    return nil;
     //}
 
-RCT_EXPORT_METHOD(variationForKey:(NSString *)key callback:(RCTResponseSenderBlock)callback){
+RCT_EXPORT_METHOD(variationForKey:(NSString *)key
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject) {
     id variation = [VWO variationForKey:key];
-    if (variation == nil) callback(@[@"Variation not found"]);
-    else callback(@[[NSNull null], variation]);
+    if (variation != nil) resolve(variation);
+    else reject(@"No variation", @"No variation was found for key", nil);
 }
 
 RCT_EXPORT_METHOD(markConversionForGoal: (NSString *)goal){
