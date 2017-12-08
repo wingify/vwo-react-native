@@ -135,18 +135,23 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void markConversionForGoal(@NonNull String goal) {
-        com.vwo.mobile.VWO.markConversionForGoal(goal);
+    public void trackConversion(@NonNull String goal) {
+        com.vwo.mobile.VWO.trackConversion(goal);
     }
 
     @ReactMethod
-    public void markConversionForGoalWithValue(@NonNull String goal, Double value) {
-        com.vwo.mobile.VWO.markConversionForGoal(goal, value);
+    public void trackConversionWithValue(@NonNull String goal, Double value) {
+        com.vwo.mobile.VWO.trackConversion(goal, value);
     }
 
     @ReactMethod
     public void setCustomVariable(@NonNull String key, @NonNull String value) {
         com.vwo.mobile.VWO.setCustomVariable(key, value);
+    }
+
+    @ReactMethod
+    public void setOptOut(boolean optOut) {
+        com.vwo.mobile.VWO.setOptOut(optOut);
     }
 
 //    @ReactMethod
