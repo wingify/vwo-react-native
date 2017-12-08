@@ -10,7 +10,7 @@
 `$ react-native link vwo-react-native`
 
 ### iOS
-1. Add VWO Dependency to your ios/podfile file `pod 'VWO', '~>2.0.0-rc.1'`
+1. Add VWO Dependency to your ios/podfile file `pod 'VWO', '~>2.0.0-rc.3'`
 2. `cd ios && pod install`
 
 ### Android
