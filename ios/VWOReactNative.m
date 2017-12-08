@@ -41,6 +41,10 @@ RCT_EXPORT_METHOD(setLogLevel:(VWOLogLevel)level){
     [VWO setLogLevel:level];
 }
 
+RCT_EXPORT_METHOD(setOptOut:(BOOL)optOut){
+    [VWO setOptOut:optOut];
+}
+
 RCT_EXPORT_METHOD(version:(RCTResponseSenderBlock)callback){
     NSString * version = [VWO version];
     callback(@[[NSNull null], version]);
