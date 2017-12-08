@@ -41,6 +41,10 @@ RCT_EXPORT_METHOD(setLogLevel:(VWOLogLevel)level){
     [VWO setLogLevel:level];
 }
 
+RCT_EXPORT_METHOD(setOptOut:(BOOL)optOut){
+    [VWO setOptOut:optOut];
+}
+
 RCT_EXPORT_METHOD(version:(RCTResponseSenderBlock)callback){
     NSString * version = [VWO version];
     callback(@[[NSNull null], version]);
@@ -69,12 +73,12 @@ RCT_EXPORT_METHOD(variationForKey:(NSString *)key callback:(RCTResponseSenderBlo
     else callback(@[[NSNull null], variation]);
 }
 
-RCT_EXPORT_METHOD(markConversionForGoal: (NSString *)goal){
-    [VWO markConversionForGoal:goal];
+RCT_EXPORT_METHOD(trackConversion: (NSString *)goal){
+    [VWO trackConversion:goal];
 }
 
-RCT_EXPORT_METHOD(markConversionForGoalWithValue: (NSString *)goal withValue:(double) value){
-    [VWO markConversionForGoal:goal withValue:value];
+RCT_EXPORT_METHOD(trackConversionWithValue: (NSString *)goal withValue:(double) value){
+    [VWO trackConversion:goal withValue:value];
 }
 
 RCT_EXPORT_METHOD(setCustomVariable: (NSString *) key value:(NSString *) value){
