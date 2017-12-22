@@ -36,7 +36,7 @@ dependencies {
     compile 'com.facebook.react:react-native:+'
 
 //    VWO Dependencies
-    compile 'com.vwo:mobile:2.0.0@aar'
+    compile 'com.vwo:mobile:2.0.1@aar'
     debugCompile ('io.socket:socket.io-client:1.0.0') {
         // excluding org.json which is provided by Android
         exclude group: 'org.json', module: 'json'
