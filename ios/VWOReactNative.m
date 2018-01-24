@@ -66,10 +66,7 @@ RCT_EXPORT_METHOD(variationForKey:(NSString *)key
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     id variation = [VWO variationForKey:key];
-    if (variation == nil) {
-        reject(@"VWO_VAR_NIL", @"Variation for key is nil", nil);
-    }
-    else { resolve(variation); }
+    resolve(variation);
 }
 
 RCT_EXPORT_METHOD(trackConversion: (NSString *)goal){
