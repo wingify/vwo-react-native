@@ -75,7 +75,7 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void launch(@NonNull String apiKey,
-                                                 @Nullable final Promise promise) {
+                       @Nullable final Promise promise) {
         initializer(apiKey).config(mConfig).launch(new VWOStatusListener() {
 
             @Override
@@ -100,8 +100,7 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
         Object retrievedObject = com.vwo.mobile.VWO.getVariationForKey(key);
         if (promise != null) {
             if (retrievedObject == null) {
-                String message = "No variation found for key: " + key;
-                promise.reject("VWO_VAR_NIL", message, new Exception(message));
+                promise.resolve(null);
             } else {
                 if (retrievedObject instanceof JSONObject) {
                     try {
