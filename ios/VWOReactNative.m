@@ -1,10 +1,10 @@
-//
-//  VWOReactNative.m
-//  VWOReactNative
-//
-//  Created by Rishabh Shukla on 06/08/17.
-//  Copyright © 2017 Facebook. All rights reserved.
-//
+    //
+    //  VWOReactNative.m
+    //  VWOReactNative
+    //
+    //  Created by Rishabh Shukla on 06/08/17.
+    //  Copyright © 2017 Facebook. All rights reserved.
+    //
 
 #import <VWO/VWO.h>
 #import "VWOReactNative.h"
@@ -45,34 +45,31 @@ RCT_EXPORT_METHOD(setOptOut:(BOOL)optOut){
     [VWO setOptOut:optOut];
 }
 
-RCT_EXPORT_METHOD(version:(RCTResponseSenderBlock)callback){
+RCT_EXPORT_METHOD(version:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject) {
     NSString * version = [VWO version];
-    callback(@[[NSNull null], version]);
+    resolve(version);
 }
 
-RCT_EXPORT_METHOD(launch:(NSString*)apiKey){
-    [VWO launchForAPIKey:apiKey];
-}
-
-RCT_EXPORT_METHOD(launchWithCallback: (NSString *)apiKey completion:(RCTResponseSenderBlock)completion){
+RCT_EXPORT_METHOD(launch:(NSString*)apiKey
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject) {
     [VWO launchForAPIKey:apiKey completion:^{
-        completion(@[[NSNull null]]);
+        resolve([NSNull null]);
     } failure:^(NSString * _Nonnull error) {
-        completion(@[error]);
+        reject(@"VWO_LAUNCH_ERR", error, nil);
     }];
 }
 
-    //RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(launchSynchronously:(NSString*)apiKey timeout:(NSTimeInterval)timeout){
-    //    [VWO launchSynchronouslyForAPIKey:apiKey timeout:timeout];
-    //    return nil;
-    //}
 
 RCT_EXPORT_METHOD(variationForKey:(NSString *)key
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     id variation = [VWO variationForKey:key];
-    if (variation != nil) resolve(variation);
-    else reject(@"No variation", @"No variation was found for key", nil);
+    if (variation == nil) {
+        reject(@"VWO_VAR_NIL", @"Variation for key is nil", nil);
+    }
+    else { resolve(variation); }
 }
 
 RCT_EXPORT_METHOD(trackConversion: (NSString *)goal){
@@ -88,3 +85,4 @@ RCT_EXPORT_METHOD(setCustomVariable: (NSString *) key value:(NSString *) value){
 }
 
 @end
+
