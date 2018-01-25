@@ -3,8 +3,8 @@ package com.vwo;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.LifecycleEventListener;
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -26,7 +26,6 @@ import javax.annotation.Nullable;
 
 public class VWOReactNativeModule extends ReactContextBaseJavaModule {
 
-    public static final String TAG = VWOReactNativeModule.class.getSimpleName();
     public static final String VWO_NAME = "VWO";
 
     private Context mContext;
@@ -75,60 +74,50 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void launchWithCallback(@NonNull String apiKey,
-                                                 @Nullable final Callback completionCallback) {
+    public void launch(@NonNull String apiKey,
+                       @Nullable final Promise promise) {
         initializer(apiKey).config(mConfig).launch(new VWOStatusListener() {
 
             @Override
             public void onVWOLoaded() {
-                if (completionCallback != null) {
-                    completionCallback.invoke();
+                if (promise != null) {
+                    promise.resolve(null);
                 }
             }
 
             @Override
             public void onVWOLoadFailure(String message) {
-                if (completionCallback != null) {
-                    completionCallback.invoke(message);
+                if (promise != null) {
+                    promise.reject("VWO_LAUNCH_ERR", message, new Exception(message));
                 }
             }
         });
     }
 
-//    @ReactMethod(isBlockingSynchronousMethod = true)
-//    public void launchSynchronously(@NonNull String apiKey) {
-//        initializer(apiKey).config(mConfig).launchSynchronously(3000);
-//    }
-
-    @ReactMethod
-    public void launch(@NonNull String apiKey) {
-        initializer(apiKey).config(mConfig).launch();
-    }
-
     @ReactMethod
     @Nullable
-    public void variationForKey(@NonNull String key, @Nullable Callback callback) {
+    public void variationForKey(@NonNull String key, @Nullable Promise promise) {
         Object retrievedObject = com.vwo.mobile.VWO.getVariationForKey(key);
-        if (callback != null) {
+        if (promise != null) {
             if (retrievedObject == null) {
-                callback.invoke("No variation found for key: " + key);
+                promise.resolve(null);
             } else {
                 if (retrievedObject instanceof JSONObject) {
                     try {
-                        callback.invoke(null, Utils.convertJsonToMap((JSONObject) retrievedObject));
+                        promise.resolve(Utils.convertJsonToMap((JSONObject) retrievedObject));
                     } catch (JSONException exception) {
                         VWOLog.e(VWOLog.DATA_LOGS, exception, false, false);
-                        callback.invoke("Unable to parse data");
+                        promise.reject(exception);
                     }
                 } else if (retrievedObject instanceof JSONArray) {
                     try {
-                        callback.invoke(null, Utils.convertJsonToArray((JSONArray) retrievedObject));
+                        promise.resolve(Utils.convertJsonToArray((JSONArray) retrievedObject));
                     } catch (JSONException exception) {
                         VWOLog.e(VWOLog.DATA_LOGS, exception, false, false);
-                        callback.invoke("Unable to parse data");
+                        promise.reject(exception);
                     }
                 } else {
-                    callback.invoke(null, retrievedObject);
+                    promise.resolve(retrievedObject);
                 }
             }
         }
@@ -154,27 +143,10 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
         com.vwo.mobile.VWO.setOptOut(optOut);
     }
 
-//    @ReactMethod
-//    public void launchWithVWOConfig(@NonNull String apiKey, @NonNull ReadableMap userSegmentationMapping) {
-//        Map<String, String> map;
-//        try {
-//            map = Utils.convertReadableMapToHashMap(userSegmentationMapping);
-//            Log.d("TAG", map.toString());
-//        } catch (JSONException exception) {
-//            VWOLog.e(VWOLog.INITIALIZATION_LOGS, exception, false, false);
-//            map = new HashMap<>();
-//        }
-//        initializer(apiKey).config(new VWOConfig
-//                .Builder()
-//                .setCustomSegmentationMapping(map)
-//                .build())
-//                .launch();
-//    }
-
     @ReactMethod
-    public void version(@NonNull Callback callback) {
+    public void version(@NonNull Promise promise) {
         String version = com.vwo.mobile.VWO.version();
-        callback.invoke(null, version);
+        promise.resolve(version);
     }
 
     /**
