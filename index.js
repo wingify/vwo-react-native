@@ -5,7 +5,13 @@ const { VWO } = NativeModules;
 
 VWO.variationForKeyWithDefaultValue = (key, defaultValue) => new Promise((resolve) => {
 	VWO.variationForKey(key)
-		.then(resolve)
+		.then((result) => {
+            if (result === null) {
+                resolve(defaultValue)
+            } else {
+                resolve(result)
+            }
+        })
 		.catch((err) => {
 			resolve(defaultValue);
 		});
