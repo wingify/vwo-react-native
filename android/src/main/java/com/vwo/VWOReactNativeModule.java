@@ -8,6 +8,8 @@ import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.ReadableType;
 import com.vwo.RNUtils.Utils;
 import com.vwo.mobile.Initializer;
 import com.vwo.mobile.VWOConfig;
@@ -25,16 +27,19 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 public class VWOReactNativeModule extends ReactContextBaseJavaModule {
+    private static final String LOG_TAG = "VWO_LOG";
 
-    public static final String VWO_NAME = "VWO";
+    private final ActivityLifecycleListener listener = new ActivityLifecycleListener();
 
+    private static final String VWO_NAME = "VWO";
+
+    private static final String OPT_OUT = "optOut";
+    private static final String DISABLE_PREVIEW = "disablePreview";
+    private static final String CUSTOM_VARIABLES = "customVariables";
     private Context mContext;
-    private VWOConfig mConfig;
 
     public VWOReactNativeModule(ReactApplicationContext reactContext) {
         super(reactContext);
-        final ActivityLifecycleListener listener = new ActivityLifecycleListener();
-        mConfig = new VWOConfig.Builder().setLifecycleListener(listener).build();
         reactContext.addLifecycleEventListener(new LifecycleEventListener() {
 
             @Override
@@ -74,13 +79,12 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void launch(@NonNull String apiKey,
+    public void launch(@NonNull String apiKey, @Nullable ReadableMap config,
                        @Nullable final Promise promise) {
-        initializer(apiKey).config(mConfig).launch(new VWOStatusListener() {
+        initializer(apiKey).config(getConfigFromMap(config)).launch(new VWOStatusListener() {
 
             @Override
-            public void onVWOLoaded() {
-                if (promise != null) {
+            public void onVWOLoaded() { if (promise != null) {
                     promise.resolve(null);
                 }
             }
@@ -94,10 +98,46 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
         });
     }
 
+    @NonNull
+    private VWOConfig getConfigFromMap(@Nullable ReadableMap readableMap) {
+        VWOConfig.Builder vwoConfigBuilder = new VWOConfig.Builder();
+        vwoConfigBuilder.setLifecycleListener(listener);
+
+        if (readableMap != null) {
+            if (readableMap.hasKey(OPT_OUT) && readableMap.getType(CUSTOM_VARIABLES) != ReadableType.Null) {
+                try {
+                    vwoConfigBuilder.setOptOut(readableMap.getBoolean(OPT_OUT));
+                } catch (Exception exception) {
+                    VWOLog.w(LOG_TAG, "optOut must be a Boolean", false);
+                }
+            }
+
+            if (readableMap.hasKey(DISABLE_PREVIEW) && readableMap.getType(CUSTOM_VARIABLES) != ReadableType.Null) {
+                try {
+                    if(readableMap.getBoolean(DISABLE_PREVIEW)) {
+                        vwoConfigBuilder.disablePreview();
+                    }
+                } catch (Exception exception) {
+                    VWOLog.w(LOG_TAG, "disablePreview must be a Boolean", false);
+                }
+            }
+
+            if (readableMap.hasKey(CUSTOM_VARIABLES) && readableMap.getType(CUSTOM_VARIABLES) != ReadableType.Null) {
+                try {
+                    vwoConfigBuilder.setCustomVariables(Utils.toHashMap(readableMap.getMap(CUSTOM_VARIABLES)));
+                } catch (Exception exception) {
+                    VWOLog.w(LOG_TAG, "customVariables must be a javascript object", false);
+                }
+            }
+        }
+
+        return vwoConfigBuilder.build();
+    }
+
+
     @ReactMethod
-    @Nullable
     public void variationForKey(@NonNull String key, @Nullable Promise promise) {
-        Object retrievedObject = com.vwo.mobile.VWO.getVariationForKey(key);
+        Object retrievedObject = com.vwo.mobile.VWO.getVariationForKey(key, null);
         if (promise != null) {
             if (retrievedObject == null) {
                 promise.resolve(null);
@@ -134,16 +174,6 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void setCustomVariable(@NonNull String key, @NonNull String value) {
-        com.vwo.mobile.VWO.setCustomVariable(key, value);
-    }
-
-    @ReactMethod
-    public void setOptOut(boolean optOut) {
-        com.vwo.mobile.VWO.setOptOut(optOut);
-    }
-
-    @ReactMethod
     public void version(@NonNull Promise promise) {
         String version = com.vwo.mobile.VWO.version();
         promise.resolve(version);
@@ -161,6 +191,9 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
         constants.put("logLevelWarning", 900);
         constants.put("logLevelError", 1000);
         constants.put("logLevelOff", Integer.MAX_VALUE);
+        constants.put("configOptOut", OPT_OUT);
+        constants.put("configDisablePreview", DISABLE_PREVIEW);
+        constants.put("configCustomVariables", CUSTOM_VARIABLES);
         return constants;
     }
 }
