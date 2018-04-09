@@ -1,22 +1,18 @@
+require 'json'
+package = JSON.parse(File.read(File.join(__dir__, 'package.json')))
 
 Pod::Spec.new do |spec|
-  spec.name         = "VWOReactNative"
-  spec.version      = "1.0.0"
-  spec.summary      = "VWOReactNative"
-  spec.description  = <<-DESC
-                  VWO React Native
-                   DESC
-  spec.homepage     = ""
-  spec.license      = "MIT"
-  # spec.license      = { :type => "MIT", :file => "FILE_LICENSE" }
-  spec.author       = { "wingify" => "info@wingify.com" }
-  spec.platform     = :ios, "9.0"
-  spec.source       = { :git => "https://github.com/wingify/vwo-react-native.git", :tag => "master" }
-  spec.source_files = "VWOReactNative/**/*.{h,m}"
-  spec.requires_arc = true
+  spec.name           = "VWOReactNative"
+  spec.version        = package['version']
+  spec.summary        = package['description']
+  spec.description    = package['description']
+  spec.license        = package['license']
+  spec.author         = package['author']
+  spec.source         = { :git => "https://github.com/wingify/vwo-react-native.git", :tag => "master" }
+  spec.requires_arc   = true
+  spec.platform       = :ios, '8.0'
+  spec.source_files   = "VWOReactNative/**/*.{h,m}"
   spec.dependency 'React'
-  spec.dependency 'VWO', '~>2.0.0-beta1'
-
+  spec.dependency 'VWO', '~>2.2'
 end
 
-  
