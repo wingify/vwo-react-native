@@ -41,20 +41,27 @@ RCT_EXPORT_METHOD(setLogLevel:(VWOLogLevel)level){
     [VWO setLogLevel:level];
 }
 
-RCT_EXPORT_METHOD(setOptOut:(BOOL)optOut){
-    [VWO setOptOut:optOut];
-}
-
 RCT_EXPORT_METHOD(version:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     NSString * version = [VWO version];
     resolve(version);
 }
 
+- (VWOConfig *)vwoConfigFromDictionary:(NSDictionary *)configDict {
+    VWOConfig *config = [VWOConfig new];
+    config.disablePreview = [configDict[@"disablePreview"] boolValue];
+    config.optOut = [configDict[@"optOut"] boolValue];
+    config.customVariables = configDict[@"customVariables"];
+    return config;
+}
+
+
 RCT_EXPORT_METHOD(launch:(NSString*)apiKey
+                  config:(NSDictionary *)config
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
-    [VWO launchForAPIKey:apiKey completion:^{
+    VWOConfig *vwoConfig = [self vwoConfigFromDictionary:config];
+    [VWO launchForAPIKey:apiKey config:vwoConfig completion:^{
         resolve([NSNull null]);
     } failure:^(NSString * _Nonnull error) {
         reject(@"VWO_LAUNCH_ERR", error, nil);
@@ -65,7 +72,7 @@ RCT_EXPORT_METHOD(launch:(NSString*)apiKey
 RCT_EXPORT_METHOD(variationForKey:(NSString *)key
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
-    id variation = [VWO variationForKey:key];
+    id variation = [VWO variationForKey:key defaultValue:nil];
     resolve(variation);
 }
 
@@ -75,10 +82,6 @@ RCT_EXPORT_METHOD(trackConversion: (NSString *)goal){
 
 RCT_EXPORT_METHOD(trackConversionWithValue: (NSString *)goal withValue:(double) value){
     [VWO trackConversion:goal withValue:value];
-}
-
-RCT_EXPORT_METHOD(setCustomVariable: (NSString *) key value:(NSString *) value){
-    [VWO setCustomVariable: key withValue:value];
 }
 
 @end

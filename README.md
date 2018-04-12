@@ -57,7 +57,7 @@
     ```groovy
     dependencies {
       ...
-        debugCompile ('io.socket:socket.io-client:1.0.0') {
+        compile ('io.socket:socket.io-client:1.0.0') {
             // excluding org.json which is provided by Android
             exclude group: 'org.json', module: 'json'
         }
