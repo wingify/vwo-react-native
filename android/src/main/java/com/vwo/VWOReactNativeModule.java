@@ -12,6 +12,7 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableType;
 import com.vwo.RNUtils.Utils;
 import com.vwo.mobile.Initializer;
+import com.vwo.mobile.VWO;
 import com.vwo.mobile.VWOConfig;
 import com.vwo.mobile.events.VWOStatusListener;
 import com.vwo.mobile.listeners.ActivityLifecycleListener;
@@ -70,7 +71,7 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
     }
 
     private Initializer initializer(@NonNull String apiKey) {
-        return com.vwo.mobile.VWO.with(getContext(), apiKey);
+        return VWO.with(getContext(), apiKey);
     }
 
     @ReactMethod
@@ -134,10 +135,66 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
         return vwoConfigBuilder.build();
     }
 
+    @ReactMethod
+    public void intForKey(@NonNull String key, int defaultValue, @Nullable Promise promise) {
+        try {
+            if(promise != null) {
+                promise.resolve(VWO.getIntegerForKey(key, defaultValue));
+            }
+        } catch (Exception exception) {
+            promise.resolve(defaultValue);
+        }
+
+    }
 
     @ReactMethod
-    public void variationForKey(@NonNull String key, @Nullable Promise promise) {
-        Object retrievedObject = com.vwo.mobile.VWO.getVariationForKey(key, null);
+    public void stringForKey(@NonNull String key, @Nullable String defaultValue, @Nullable Promise promise) {
+        try {
+            if(promise != null) {
+                promise.resolve(VWO.getStringForKey(key, defaultValue));
+            }
+        } catch (Exception exception) {
+            promise.resolve(defaultValue);
+        }
+    }
+
+    @ReactMethod
+    public void boolForKey(@NonNull String key, boolean defaultValue, @Nullable Promise promise) {
+        try {
+            if(promise != null) {
+                promise.resolve(VWO.getBooleanForKey(key, defaultValue));
+            }
+        } catch (Exception exception) {
+            promise.resolve(defaultValue);
+        }
+    }
+
+    @ReactMethod
+    public void doubleForKey(@NonNull String key, double defaultValue, @Nullable Promise promise) {
+        try {
+            if(promise != null) {
+                promise.resolve(VWO.getDoubleForKey(key, defaultValue));
+            }
+        } catch (Exception exception) {
+            promise.resolve(defaultValue);
+        }
+    }
+
+    @ReactMethod
+    public void variationNameForTestKey(@NonNull String testKey, @Nullable Promise promise) {
+        try {
+            if (promise != null) {
+                promise.resolve(VWO.getVariationNameForTestKey(testKey));
+            }
+        } catch (Exception exception) {
+            promise.reject(exception);
+        }
+    }
+
+
+    @ReactMethod
+    public void objectForKey(@NonNull String key, @Nullable Promise promise) {
+        Object retrievedObject = VWO.getObjectForKey(key, null);
         if (promise != null) {
             if (retrievedObject == null) {
                 promise.resolve(null);
@@ -165,17 +222,17 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void trackConversion(@NonNull String goal) {
-        com.vwo.mobile.VWO.trackConversion(goal);
+        VWO.trackConversion(goal);
     }
 
     @ReactMethod
     public void trackConversionWithValue(@NonNull String goal, Double value) {
-        com.vwo.mobile.VWO.trackConversion(goal, value);
+        VWO.trackConversion(goal, value);
     }
 
     @ReactMethod
     public void version(@NonNull Promise promise) {
-        String version = com.vwo.mobile.VWO.version();
+        String version = VWO.version();
         promise.resolve(version);
     }
 
