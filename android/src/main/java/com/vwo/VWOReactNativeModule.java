@@ -171,7 +171,7 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void doubleForKey(@NonNull String key, double defaultValue, @Nullable Promise promise) {
+    public void floatForKey(@NonNull String key, double defaultValue, @Nullable Promise promise) {
         try {
             if (promise != null) {
                 promise.resolve(VWO.getDoubleForKey(key, defaultValue));
