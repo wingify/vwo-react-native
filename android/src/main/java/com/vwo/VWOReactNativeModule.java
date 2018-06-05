@@ -85,7 +85,8 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
         initializer(apiKey).config(getConfigFromMap(config)).launch(new VWOStatusListener() {
 
             @Override
-            public void onVWOLoaded() { if (promise != null) {
+            public void onVWOLoaded() {
+                if (promise != null) {
                     promise.resolve(null);
                 }
             }
@@ -115,7 +116,7 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
 
             if (readableMap.hasKey(DISABLE_PREVIEW) && readableMap.getType(CUSTOM_VARIABLES) != ReadableType.Null) {
                 try {
-                    if(readableMap.getBoolean(DISABLE_PREVIEW)) {
+                    if (readableMap.getBoolean(DISABLE_PREVIEW)) {
                         vwoConfigBuilder.disablePreview();
                     }
                 } catch (Exception exception) {
@@ -138,7 +139,7 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void intForKey(@NonNull String key, int defaultValue, @Nullable Promise promise) {
         try {
-            if(promise != null) {
+            if (promise != null) {
                 promise.resolve(VWO.getIntegerForKey(key, defaultValue));
             }
         } catch (Exception exception) {
@@ -150,7 +151,7 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void stringForKey(@NonNull String key, @Nullable String defaultValue, @Nullable Promise promise) {
         try {
-            if(promise != null) {
+            if (promise != null) {
                 promise.resolve(VWO.getStringForKey(key, defaultValue));
             }
         } catch (Exception exception) {
@@ -161,7 +162,7 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void boolForKey(@NonNull String key, boolean defaultValue, @Nullable Promise promise) {
         try {
-            if(promise != null) {
+            if (promise != null) {
                 promise.resolve(VWO.getBooleanForKey(key, defaultValue));
             }
         } catch (Exception exception) {
@@ -172,7 +173,7 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void doubleForKey(@NonNull String key, double defaultValue, @Nullable Promise promise) {
         try {
-            if(promise != null) {
+            if (promise != null) {
                 promise.resolve(VWO.getDoubleForKey(key, defaultValue));
             }
         } catch (Exception exception) {
@@ -193,7 +194,7 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
 
 
     @ReactMethod
-    public void objectForKey(@NonNull String key, @Nullable Promise promise) {
+    public void __ObjectForKey(@NonNull String key, @Nullable Promise promise) {
         Object retrievedObject = VWO.getObjectForKey(key, null);
         if (promise != null) {
             if (retrievedObject == null) {
