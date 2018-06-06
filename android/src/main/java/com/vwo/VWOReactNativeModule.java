@@ -194,7 +194,7 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
 
 
     @ReactMethod
-    public void __ObjectForKey(@NonNull String key, @Nullable Promise promise) {
+    public void __objectForKey__(@NonNull String key, @Nullable Promise promise) {
         Object retrievedObject = VWO.getObjectForKey(key, null);
         if (promise != null) {
             if (retrievedObject == null) {
