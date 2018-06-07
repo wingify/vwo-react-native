@@ -2,7 +2,7 @@ react-native bridge for VWO A/B testing SDKs
 
 # Documentation
 
-http://developers.vwo.com/v3/reference#react-native-guide
+http://developers.vwo.com/reference#react-native-guide
 
 # Setting up VWO Account
 
