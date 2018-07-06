@@ -232,6 +232,11 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void setCustomVariable(@NonNull String key, @NonNull String value) {
+        VWO.setCustomVariable(key, value);
+    }
+
+    @ReactMethod
     public void version(@NonNull Promise promise) {
         String version = VWO.version();
         promise.resolve(version);
