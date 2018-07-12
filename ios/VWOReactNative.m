@@ -41,6 +41,11 @@ RCT_EXPORT_METHOD(setLogLevel:(VWOLogLevel)level){
   [VWO setLogLevel:level];
 }
 
+RCT_EXPORT_METHOD(setCustomVariable:(NSString *)key
+  value:(NSString *)value) {
+  [VWO setCustomVariable:key withValue:value];
+}
+
 RCT_EXPORT_METHOD(version:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
   NSString * version = [VWO version];
