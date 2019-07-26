@@ -36,10 +36,9 @@ dependencies {
     compile 'com.facebook.react:react-native:+'
 
 //    VWO Dependencies
-    compile 'com.vwo:hybrid:2.4.2@aar'
+    compile 'com.vwo:hybrid:2.5.1@aar'
     compile ('io.socket:socket.io-client:1.0.0') {
         // excluding org.json which is provided by Android
         exclude group: 'org.json', module: 'json'
     }
 }
-
