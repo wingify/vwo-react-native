@@ -16,6 +16,11 @@ public class VWOReactNativePackage implements ReactPackage {
         return Collections.<NativeModule>singletonList(new VWOReactNativeModule(reactContext));
     }
 
+    @Override
+    public List<Class<? extends JavaScriptModule>> createJSModules() {
+        return null;
+    }
+
     /**
      * @return list of JS modules to register with the newly created catalyst instance.
      * <p>
