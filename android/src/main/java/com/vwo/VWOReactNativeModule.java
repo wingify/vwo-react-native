@@ -1,7 +1,7 @@
 package com.vwo;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.Promise;
@@ -36,6 +36,8 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
 
     private static final String OPT_OUT = "optOut";
     private static final String DISABLE_PREVIEW = "disablePreview";
+    private static final String CUSTOM_DIMENSION_KEY = "customDimensionKey";
+    private static final String CUSTOM_DIMENSION_VALUE = "customDimensionValue";
     private static final String CUSTOM_VARIABLES = "customVariables";
     private Context mContext;
 
@@ -121,6 +123,19 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
                     }
                 } catch (Exception exception) {
                     VWOLog.w(LOG_TAG, "disablePreview must be a Boolean", false);
+                }
+            }
+
+            if (readableMap.hasKey(CUSTOM_DIMENSION_KEY) && readableMap.hasKey(CUSTOM_DIMENSION_VALUE)) {
+                try {
+                    if (readableMap.getString(CUSTOM_DIMENSION_KEY) != null
+                            && !readableMap.getString(CUSTOM_DIMENSION_KEY).equals("")
+                            && readableMap.getString(CUSTOM_DIMENSION_VALUE) != null
+                            && !readableMap.getString(CUSTOM_DIMENSION_VALUE).equals("")) {
+                        vwoConfigBuilder.setCustomDimension(readableMap.getString(CUSTOM_DIMENSION_KEY), readableMap.getString((CUSTOM_DIMENSION_VALUE)));
+                    }
+                } catch (Exception exception) {
+                    VWOLog.w(LOG_TAG, "CustomDimensionKey and CustomDimensionValue should not be null or an empty string", false);
                 }
             }
 
@@ -229,6 +244,11 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void trackConversionWithValue(@NonNull String goal, Double value) {
         VWO.trackConversion(goal, value);
+    }
+
+    @ReactMethod
+    public void pushCustomDimension(@NonNull String customDimensionKey, @NonNull String customDimensionValue) {
+        VWO.pushCustomDimension(customDimensionKey, customDimensionValue);
     }
 
     @ReactMethod

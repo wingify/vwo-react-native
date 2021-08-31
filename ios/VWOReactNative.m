@@ -57,6 +57,9 @@ RCT_EXPORT_METHOD(version:(RCTPromiseResolveBlock)resolve
   config.disablePreview = [configDict[@"disablePreview"] boolValue];
   config.optOut = [configDict[@"optOut"] boolValue];
   config.customVariables = configDict[@"customVariables"];
+  if (configDict[@"customDimensionKey"] != nil && configDict[@"customDimensionValue"] != nil) {
+    [config setCustomDimension: configDict[@"customDimensionKey"] withCustomDimensionValue: configDict[@"customDimensionValue"]];
+  }
   return config;
 }
 
@@ -117,6 +120,11 @@ RCT_EXPORT_METHOD(variationNameForTestKey:(NSString *)testKey
                   rejecter:(RCTPromiseRejectBlock)reject) {
   NSString *name = [VWO variationNameForTestKey:testKey];
   resolve(name);
+}
+
+RCT_EXPORT_METHOD(pushCustomDimension:(NSString *)customDimensionKey
+                  customDimensionValue:(NSString *) customDimensionValue) {
+    [VWO pushCustomDimension:customDimensionKey withCustomDimensionValue:customDimensionValue];
 }
 
 RCT_EXPORT_METHOD(trackConversion: (NSString *)goal){
