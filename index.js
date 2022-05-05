@@ -1,4 +1,3 @@
-
 import { NativeModules } from 'react-native';
 
 const { VWO } = NativeModules;
@@ -16,6 +15,5 @@ VWO.objectForKey = (key, defaultValue) => new Promise((resolve) => {
 			resolve(defaultValue);
 		});
 });
-
 
 export default VWO;

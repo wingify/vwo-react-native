@@ -35,6 +35,7 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
     private static final String VWO_NAME = "VWO";
 
     private static final String OPT_OUT = "optOut";
+    private static final String USER_ID = "userId";
     private static final String DISABLE_PREVIEW = "disablePreview";
     private static final String CUSTOM_DIMENSION_KEY = "customDimensionKey";
     private static final String CUSTOM_DIMENSION_VALUE = "customDimensionValue";
@@ -108,6 +109,15 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
         vwoConfigBuilder.setLifecycleListener(listener);
 
         if (readableMap != null) {
+
+            if (readableMap.hasKey(USER_ID) && readableMap.getType(USER_ID) != ReadableType.Null) {
+                try {
+                    vwoConfigBuilder.userID(readableMap.getString(USER_ID));
+                } catch (Exception exception) {
+                    VWOLog.w(LOG_TAG, "userId must be a String", false);
+                }
+            }
+
             if (readableMap.hasKey(OPT_OUT) && readableMap.getType(CUSTOM_VARIABLES) != ReadableType.Null) {
                 try {
                     vwoConfigBuilder.setOptOut(readableMap.getBoolean(OPT_OUT));

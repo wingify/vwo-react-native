@@ -56,6 +56,7 @@ RCT_EXPORT_METHOD(version:(RCTPromiseResolveBlock)resolve
   VWOConfig *config = [VWOConfig new];
   config.disablePreview = [configDict[@"disablePreview"] boolValue];
   config.optOut = [configDict[@"optOut"] boolValue];
+  config.userID = configDict[@"userID"];
   config.customVariables = configDict[@"customVariables"];
   if (configDict[@"customDimensionKey"] != nil && configDict[@"customDimensionValue"] != nil) {
     [config setCustomDimension: configDict[@"customDimensionKey"] withCustomDimensionValue: configDict[@"customDimensionValue"]];

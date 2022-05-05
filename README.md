@@ -1,17 +1,19 @@
-react-native bridge for VWO A/B testing SDKs
+# VWO React Native SDK
 
-# Documentation
+React-native bridge for VWO A/B testing SDK
+
+## Documentation
 
 http://developers.vwo.com/reference#react-native-guide
 
-# Setting up VWO Account
+## Setting up VWO Account
 
 Sign Up for VWO account at https://vwo.com
 
-# Author
+## Author
 
-Wingify, info@wingify.com
+Wingify, [info@wingify.com](info@wingify.com)
 
-# License
+## License
 
-By using this Plugin, you agree to abide by the [VWO Terms & Conditions](https://vwo.com/terms-conditions).
+By using this Plugin, you agree to abide by the [VWO Terms & Conditions](https://vwo.com/terms-conditions). Copyright (c) 2017-2022 Wingify Software Pvt. Ltd.
