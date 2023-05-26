@@ -16,4 +16,4 @@ Wingify, [info@wingify.com](info@wingify.com)
 
 ## License
 
-By using this Plugin, you agree to abide by the [VWO Terms & Conditions](https://vwo.com/terms-conditions). Copyright (c) 2017-2022 Wingify Software Pvt. Ltd.
+By using this Plugin, you agree to abide by the [VWO Terms & Conditions](https://vwo.com/terms-conditions). Copyright (c) 2017-2023 Wingify Software Pvt. Ltd.

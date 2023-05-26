@@ -16,7 +16,7 @@ public class VWOReactNativePackage implements ReactPackage {
         return Collections.<NativeModule>singletonList(new VWOReactNativeModule(reactContext));
     }
 
-    @Override
+    // @Override
     public List<Class<? extends JavaScriptModule>> createJSModules() {
         return null;
     }
