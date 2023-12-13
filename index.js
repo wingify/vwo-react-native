@@ -1,5 +1,5 @@
 import { NativeModules } from 'react-native';
-
+#forks
 const { VWO } = NativeModules;
 
 VWO.objectForKey = (key, defaultValue) => new Promise((resolve) => {
