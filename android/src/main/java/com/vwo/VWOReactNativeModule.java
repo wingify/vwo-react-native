@@ -6,10 +6,11 @@ import androidx.annotation.NonNull;
 import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReadableMapKeySetIterator;
+import com.facebook.react.bridge.ReadableType;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
-import com.facebook.react.bridge.ReadableType;
 import com.vwo.RNUtils.Utils;
 import com.vwo.mobile.Initializer;
 import com.vwo.mobile.VWO;
@@ -84,7 +85,7 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void launch(@NonNull String apiKey, @Nullable ReadableMap config,
-                       @Nullable final Promise promise) {
+            @Nullable final Promise promise) {
         initializer(apiKey).config(getConfigFromMap(config)).launch(new VWOStatusListener() {
 
             @Override
@@ -142,10 +143,12 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
                             && !readableMap.getString(CUSTOM_DIMENSION_KEY).equals("")
                             && readableMap.getString(CUSTOM_DIMENSION_VALUE) != null
                             && !readableMap.getString(CUSTOM_DIMENSION_VALUE).equals("")) {
-                        vwoConfigBuilder.setCustomDimension(readableMap.getString(CUSTOM_DIMENSION_KEY), readableMap.getString((CUSTOM_DIMENSION_VALUE)));
+                        vwoConfigBuilder.setCustomDimension(readableMap.getString(CUSTOM_DIMENSION_KEY),
+                                readableMap.getString((CUSTOM_DIMENSION_VALUE)));
                     }
                 } catch (Exception exception) {
-                    VWOLog.w(LOG_TAG, "CustomDimensionKey and CustomDimensionValue should not be null or an empty string", false);
+                    VWOLog.w(LOG_TAG,
+                            "CustomDimensionKey and CustomDimensionValue should not be null or an empty string", false);
                 }
             }
 
@@ -217,7 +220,6 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
         }
     }
 
-
     @ReactMethod
     public void __objectForKey__(@NonNull String key, @Nullable Promise promise) {
         Object retrievedObject = VWO.getObjectForKey(key, null);
@@ -259,6 +261,52 @@ public class VWOReactNativeModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void pushCustomDimension(@NonNull String customDimensionKey, @NonNull String customDimensionValue) {
         VWO.pushCustomDimension(customDimensionKey, customDimensionValue);
+    }
+
+    @ReactMethod
+    public void pushCustomDimensionMap(@NonNull ReadableMap customDimensionMap) {
+
+        HashMap<String, Object> customDimensionData = new HashMap<>();
+
+        ReadableMapKeySetIterator keyIterator = customDimensionMap.keySetIterator();
+        while (keyIterator.hasNextKey()) {
+
+            String key = keyIterator.nextKey();
+            Object value = null;
+
+            if (key == null) {
+                continue; // keys can never be null
+            }
+
+            ReadableType type = customDimensionMap.getType(key);
+            switch (type) {
+                case String:
+                    value = customDimensionMap.getString(key);
+                    break;
+                case Boolean:
+                    value = customDimensionMap.getBoolean(key);
+                    break;
+                case Number:
+                    // RN cannot diff between Double and Int without this
+                    double number = customDimensionMap.getDouble(key);
+                    if (number == Math.rint(number)) {
+                        // is an Integer
+                        value = customDimensionMap.getInt(key);
+                    } else {
+                        // is a Double
+                        value = customDimensionMap.getDouble(key);
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            if (value != null) {
+                customDimensionData.put(key, value);
+            }
+        }
+
+        VWO.pushCustomDimension(customDimensionData);
     }
 
     @ReactMethod

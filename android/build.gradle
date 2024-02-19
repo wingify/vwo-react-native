@@ -17,8 +17,8 @@ buildscript {
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion "28.0.1"
+    compileSdkVersion 31
+    buildToolsVersion "33.0.1"
 
     defaultConfig {
         minSdkVersion 16
@@ -37,14 +37,12 @@ repositories {
         url 'https://maven.google.com/'
         name 'Google'
     }
-
 }
 
 dependencies {
     implementation'com.facebook.react:react-native:0.20.1'
 
-//    VWO Dependencies
-    implementation 'com.vwo:hybrid:2.6.1@aar'
+    implementation 'com.vwo:hybrid:2.7.0@aar'
     implementation ('io.socket:socket.io-client:1.0.0') {
         // excluding org.json which is provided by Android
         exclude group: 'org.json', module: 'json'
